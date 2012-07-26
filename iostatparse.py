@@ -35,63 +35,122 @@ def line_num():
 	
 def array_calc():
 
-	print "parsing complete"
-	print "doing magical math stuff"
+	print ">> doing magical math stuff"
+	to9perc = float(to9counter) * 100 / int(num_lines)
+	print "0-9: " + str(to9counter) + " occurences and percentage: " + str(to9perc)
+	to19perc = float(to9counter) * 100 / int(num_lines)
+	print "10-19: " + str(to19counter)  + " occurences and percentage: " + str(to19perc)
+	to29perc = float(to9counter) * 100 / int(num_lines)
+	print "20-29: " + str(to29counter)  + " occurences and percentage: " + str(to29perc)
+	to39perc = float(to9counter) * 100 / int(num_lines)
+	print "30-39: " + str(to39counter)  + " occurences and percentage: " + str(to39perc)
+	to49perc = float(to9counter) * 100 / int(num_lines)
+	print "40-49: " + str(to49counter)  + " occurences and percentage: " + str(to49perc)
+	to59perc = float(to9counter) * 100 / int(num_lines)
+	print "50-59: " + str(to59counter)  + " occurences and percentage: " + str(to59perc)
+	to69perc = float(to9counter) * 100 / int(num_lines)
+	print "60-69: " + str(to69counter)  + " occurences and percentage: " + str(to69perc)
+	to79perc = float(to9counter) * 100 / int(num_lines)
+	print "70-79: " + str(to79counter)  + " occurences and percentage: " + str(to79perc)
+	to89perc = float(to9counter) * 100 / int(num_lines)
+	print "80-89: " + str(to89counter)  + " occurences and percentage: " + str(to89perc)
+	to100perc = float(to9counter) * 100 / int(num_lines)
+	print "90-100: " + str(to100counter)+ " occurences and percentage: " + str(to100perc)
+	print ">> GOTO: GRAPHS"
+	print "----------------------------------------------"
 	gen_graph()
 
 def gen_graph():
 
-	print "generating graphs"
+	print ">> generating graphs"
 	# generate graphs here
-	print "all done"
-	sys.exit("thanks for playing")
+	print ">> END"
+	print "----------------------------------------------"
+	sys.exit(">> thanks for playing.")
+
 
 
 def file_parser():
+	print "----------------------------------------------"
+	print ">> BEGIN: "
 	print "parsing: " + arg_file
 	print "lines: " + str(num_lines)
 	print "time: " + str(arg_time)
 	print "column: " + str(arg_column) 
+	print ">> GOTO: PARSER"
 	print "----------------------------------------------"
 
+	# counters (I'm sure there is a better way to do this)
+	global to9counter 
+	to9counter = 0
+	global to19counter  
+	to19counter = 0 
+	global to29counter 
+	to29counter = 0 
+	global to39counter 
+	to39counter = 0 
+	global to49counter 
+	to49counter = 0 
+	global to59counter 
+	to59counter = 0 
+	global to69counter 
+	to69counter = 0 
+	global to79counter 
+	to79counter = 0 
+	global to89counter 
+	to89counter = 0 
+	global to100counter 
+	to100counter = 0 
+
+	print ">> parsing entries"
 	file_parse = open(arg_file, 'r')
 	line_parse = file_parse.readlines()
-
 	for line in line_parse:
 		point = int((line.split()[int(arg_column)]))
 
-		if (point >= 0) or (point <= 9):
+		if (point >= 0) and (point <= 9):
 			# place the value into an array
-			print "1-9: " +  str(point)
-		elif (point >= 10) or (point <= 19):
+			#print "1-9: " +  str(point)
+			to9counter = to9counter + 1
+		elif (point >= 10) and (point <= 19):
 			# place the value into an array
-			print "10 - 19: " + str(point)
-		elif (point >= 20) or (point <= 29):
+			#print "10 - 19: " + str(point)
+			to19counter = to19counter + 1
+		elif (point >= 20) and (point <= 29):
 			# place the value into an array
-			print "20-29" + str(point)
-		elif (point >= 30) or (point <= 39):
+			#print "20-29: " + str(point)
+			to29counter = to29counter + 1
+		elif (point >= 30) and (point <= 39):
 			# place the value into an array
-			print "30-39" + str(point)
-		elif (point >= 40) or (point <= 49):
+			#print "30-39: " + str(point)
+			to39counter = to39counter + 1
+		elif (point >= 40) and (point <= 49):
 			# place the value into an array
-			print "40-49" + str(point)
-		elif (point >= 50) or (point <= 59):
+			#print "40-49: " + str(point)
+			to49counter = to49counter + 1
+		elif (point >= 50) and (point <= 59):
 			# place the value into an array
-			print "50-59" + str(point)
-		elif (point >= 50) or (point <= 69):
+			#print "50-59: " + str(point)
+			to59counter = to59counter + 1
+		elif (point >= 50) and (point <= 69):
 			# place the value into an array
-			print "60-69" + str(point)
-		elif (point >= 70) or (point <= 79):
+			#print "60-69: " + str(point)
+			to69counter = to69counter + 1
+		elif (point >= 70) and (point <= 79):
 			# place the value into an array
-			print "70-79" + str(point)			
-		elif (point >= 80) or (point <= 89):
+			#print "70-79: " + str(point)
+			to79counter = to79counter + 1			
+		elif (point >= 80) and (point <= 89):
 			# place the value into an array
-			print "80-89" + str(point)		
+			#print "80-89: " + str(point)
+			to89counter = to89counter + 1		
 		else:
 			# place the value into an array
-			print "90-100: " + str(point) 
+			#print "90-100: " + str(point) 
+			to100counter = to100counter + 1	
 
-	print "complete"
+	print ">> GOTO: MATHS"
+	print "----------------------------------------------"
 	array_calc()
 	
 if __name__ == '__main__':
