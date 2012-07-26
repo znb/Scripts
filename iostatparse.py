@@ -59,35 +59,35 @@ def array_calc(): # do magic on our counters to get percentages
 	print ">> doing magical math stuff"
 	print ""
 	global to9perc
-	to9perc = float(to9counter) * 100 / int(num_lines)
-	print "io load 0-9% " + str(to9counter) + " times out of " + str(num_lines) + " (" + str(to9perc) + "%)"
+	to9perc = float(to9counter) * 100 / int(arg_samples)
+	print "io load 0-9% " + str(to9counter) + " times out of " + str(arg_samples) + " (" + str(to9perc) + "%)"
 	global to19perc
-	to19perc = float(to19counter) * 100 / int(num_lines)
-	print "io load 10-19% " + str(to19counter)  + " times out of " + str(num_lines) + " (" + str(to19perc) + "%)"
+	to19perc = float(to19counter) * 100 / int(arg_samples)
+	print "io load 10-19% " + str(to19counter)  + " times out of " + str(arg_samples) + " (" + str(to19perc) + "%)"
 	global to29perc
-	to29perc = float(to29counter) * 100 / int(num_lines)
-	print "io load 20-29% " + str(to29counter)  + " times out of " + str(num_lines) + " (" + str(to29perc) + "%)"
+	to29perc = float(to29counter) * 100 / int(arg_samples)
+	print "io load 20-29% " + str(to29counter)  + " times out of " + str(arg_samples) + " (" + str(to29perc) + "%)"
 	global to39perc
-	to39perc = float(to39counter) * 100 / int(num_lines)
-	print "io load 30-39% " + str(to39counter)  + " times out of " + str(num_lines) + " (" + str(to39perc) + "%)"
+	to39perc = float(to39counter) * 100 / int(arg_samples)
+	print "io load 30-39% " + str(to39counter)  + " times out of " + str(arg_samples) + " (" + str(to39perc) + "%)"
 	global to49perc
-	to49perc = float(to49counter) * 100 / int(num_lines)
-	print "io load 40-49% " + str(to49counter)  + " times out of " + str(num_lines) + " (" + str(to49perc) + "%)"
+	to49perc = float(to49counter) * 100 / int(arg_samples)
+	print "io load 40-49% " + str(to49counter)  + " times out of " + str(arg_samples) + " (" + str(to49perc) + "%)"
 	global to59perc
-	to59perc = float(to59counter) * 100 / int(num_lines)
-	print "io load 50-59% " + str(to59counter)  + " times out of " + str(num_lines) + " (" + str(to59perc) + "%)"
+	to59perc = float(to59counter) * 100 / int(arg_samples)
+	print "io load 50-59% " + str(to59counter)  + " times out of " + str(arg_samples) + " (" + str(to59perc) + "%)"
 	global to69perc
-	to69perc = float(to69counter) * 100 / int(num_lines)
-	print "io load 60-69% " + str(to69counter)  + " times out of " + str(num_lines) + " (" + str(to69perc) + "%)"
+	to69perc = float(to69counter) * 100 / int(arg_samples)
+	print "io load 60-69% " + str(to69counter)  + " times out of " + str(arg_samples) + " (" + str(to69perc) + "%)"
 	global to79perc
-	to79perc = float(to79counter) * 100 / int(num_lines)
-	print "io load 70-79% " + str(to79counter)  + " times out of " + str(num_lines) + " (" + str(to79perc) + "%)"
+	to79perc = float(to79counter) * 100 / int(arg_samples)
+	print "io load 70-79% " + str(to79counter)  + " times out of " + str(arg_samples) + " (" + str(to79perc) + "%)"
 	global to89perc
-	to89perc = float(to89counter) * 100 / int(num_lines)
-	print "io load 80-89% " + str(to89counter)  + " times out of " + str(num_lines) + " (" + str(to89perc) + "%)"
+	to89perc = float(to89counter) * 100 / int(arg_samples)
+	print "io load 80-89% " + str(to89counter)  + " times out of " + str(arg_samples) + " (" + str(to89perc) + "%)"
 	global to100perc
-	to100perc = float(to100counter) * 100 / int(num_lines)
-	print "io load 90-100% " + str(to100counter)+ " times out of " + str(num_lines) + " (" + str(to100perc) + "%)"
+	to100perc = float(to100counter) * 100 / int(arg_samples)
+	print "io load 90-100% " + str(to100counter)+ " times out of " + str(arg_samples) + " (" + str(to100perc) + "%)"
 	print ""
 	if arg_output:
 		print ">> GOTO: OUTPUT"
@@ -106,20 +106,30 @@ def write_output():
 	print ">> writing results to file"
 	print ""
 	fileout = open(arg_output, 'a')
-	header = "output from iostat: " + arg_file + "\n"
-	body0 = "\nio load 0-9% " + str(to9counter) + " times out of " + str(num_lines) + " (" + str(to9perc) + "%)\n"
-	body1 = "io load 10-19% " + str(to19counter)  + " times out of " + str(num_lines) + " (" + str(to19perc) + "%)\n"
-	body2 = "io load 20-29% " + str(to29counter)  + " times out of " + str(num_lines) + " (" + str(to29perc) + "%)\n"
-	body3 = "io load 30-39% " + str(to39counter)  + " times out of " + str(num_lines) + " (" + str(to39perc) + "%)\n"
-	body4 = "io load 40-49% " + str(to49counter)  + " times out of " + str(num_lines) + " (" + str(to49perc) + "%)\n"
-	body5 = "io load 50-59% " + str(to59counter)  + " times out of " + str(num_lines) + " (" + str(to59perc) + "%)\n"
-	body6 = "io load 60-69% " + str(to69counter)  + " times out of " + str(num_lines) + " (" + str(to69perc) + "%)\n"
-	body7 = "io load 70-79% " + str(to79counter)  + " times out of " + str(num_lines) + " (" + str(to79perc) + "%)\n"
-	body8 = "io load 80-89% " + str(to89counter)  + " times out of " + str(num_lines) + " (" + str(to89perc) + "%)\n"
-	body9 = "io load 90-100% " + str(to100counter)+ " times out of " + str(num_lines) + " (" + str(to100perc) + "%)\n"
-	footer = "\nmessage ends\n"
+	header0 = "\niostatparse 0.1\n"
+	header1 = "input file: " + arg_file + "\n"
+	header2 = "max samples: " + str(num_lines) + "\n"
+	header3 = "samples: " + str(arg_samples) + "\n"
+	header4 = "column: " + str(arg_column) + "\n"
+	spacer0 = "\n"
+	body0 = "io load 0-9% " + str(to9counter) + " times out of " + str(arg_samples) + " (" + str(to9perc) + "%)\n"
+	body1 = "io load 10-19% " + str(to19counter)  + " times out of " + str(arg_samples) + " (" + str(to19perc) + "%)\n"
+	body2 = "io load 20-29% " + str(to29counter)  + " times out of " + str(arg_samples) + " (" + str(to29perc) + "%)\n"
+	body3 = "io load 30-39% " + str(to39counter)  + " times out of " + str(arg_samples) + " (" + str(to39perc) + "%)\n"
+	body4 = "io load 40-49% " + str(to49counter)  + " times out of " + str(arg_samples) + " (" + str(to49perc) + "%)\n"
+	body5 = "io load 50-59% " + str(to59counter)  + " times out of " + str(arg_samples) + " (" + str(to59perc) + "%)\n"
+	body6 = "io load 60-69% " + str(to69counter)  + " times out of " + str(arg_samples) + " (" + str(to69perc) + "%)\n"
+	body7 = "io load 70-79% " + str(to79counter)  + " times out of " + str(arg_samples) + " (" + str(to79perc) + "%)\n"
+	body8 = "io load 80-89% " + str(to89counter)  + " times out of " + str(arg_samples) + " (" + str(to89perc) + "%)\n"
+	body9 = "io load 90-100% " + str(to100counter)+ " times out of " + str(arg_samples) + " (" + str(to100perc) + "%)\n"
+	footer = "\n<< message ends >>\n"
 
-	fileout.write(header)
+	fileout.write(header0)
+	fileout.write(header1)
+	fileout.write(header2)
+	fileout.write(header3)
+	fileout.write(header4)
+	fileout.write(spacer0)
 	fileout.write(body0) # I'm pretty sure this can be improved on :D
 	fileout.write(body1)
 	fileout.write(body2)
@@ -131,6 +141,7 @@ def write_output():
 	fileout.write(body8)
 	fileout.write(body9)
 	fileout.write(footer)
+	fileout.write(spacer0)
 	fileout.close()
 
 	if arg_graph:
@@ -140,7 +151,7 @@ def write_output():
 	else: 
 		print ">> END"
 		print "----------------------------------------------"
-		sys.exit(">> thanks for playing.")
+		sys.exit("<< thanks for playing >>")
 
 def gen_graph(): # create pretty graphs
 
@@ -149,14 +160,15 @@ def gen_graph(): # create pretty graphs
 	print ""
 	print ">> END"
 	print "----------------------------------------------"
-	sys.exit(">> thanks for playing.")
+	sys.exit("<< thanks for playing >>")
 
 
 def file_parser(): # parse our file (error checking is for wimps)
 	print "----------------------------------------------"
 	print ">> BEGIN: "
+	print ""
 	print "parsing: " + arg_file
-	print "lines: " + str(num_lines)
+	print "max_samples: " + str(num_lines)
 	print "samples: " + str(arg_samples)
 	print "column: " + str(arg_column) 
 	print ""
@@ -186,9 +198,10 @@ def file_parser(): # parse our file (error checking is for wimps)
 	to100counter = 0 
 
 	print ">> parsing entries"
+	max_samples = arg_samples
 	file_parse = open(arg_file, 'r')
-	line_parse = file_parse.readlines()
-	for line in line_parse:
+	for i in range(int(max_samples)):
+		line = file_parse.next().strip()
 		point = int((line.split()[int(arg_column)]))
 
 		if (point >= 0) and (point <= 9):
@@ -212,6 +225,7 @@ def file_parser(): # parse our file (error checking is for wimps)
 		else:
 			to100counter = to100counter + 1	
 
+	file_parse.close()
 	print ""
 	print ">> GOTO: MATHS"
 	print "----------------------------------------------"
