@@ -12,6 +12,7 @@ def main():
 	parser.add_argument('-f', dest='file', help='file to parse')
 	parser.add_argument('-c', dest='column', help='column to parse')
 	parser.add_argument('-t', dest='time', help='time slice to parse')
+	parser.add_argument('-g', action='store_true', dest='graph', help='generate pretty graphs')
 	parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.1')
 	args = parser.parse_args()
 	
@@ -23,9 +24,11 @@ def main():
 	global arg_file
 	global arg_column
 	global arg_time
+	global arg_graph
 	arg_file = args.file
 	arg_column = args.column
 	arg_time = args.time
+	arg_graph = args.graph
 	line_num()
 	file_parser()
 
@@ -36,38 +39,45 @@ def line_num():
 def array_calc():
 
 	print ">> doing magical math stuff"
+	print ""
 	to9perc = float(to9counter) * 100 / int(num_lines)
-	print "0-9: " + str(to9counter) + " occurences and percentage: " + str(to9perc)
+	print "io load 0-9% " + str(to9counter) + " times out of " + str(num_lines) + " (" + str(to9perc) + "%)"
 	to19perc = float(to9counter) * 100 / int(num_lines)
-	print "10-19: " + str(to19counter)  + " occurences and percentage: " + str(to19perc)
+	print "io load 10-19% " + str(to19counter)  + " times out of " + str(num_lines) + " (" + str(to19perc) + "%)"
 	to29perc = float(to9counter) * 100 / int(num_lines)
-	print "20-29: " + str(to29counter)  + " occurences and percentage: " + str(to29perc)
+	print "io load 20-29% " + str(to29counter)  + " times out of " + str(num_lines) + " (" + str(to29perc) + "%)"
 	to39perc = float(to9counter) * 100 / int(num_lines)
-	print "30-39: " + str(to39counter)  + " occurences and percentage: " + str(to39perc)
+	print "io load 30-39% " + str(to39counter)  + " times out of " + str(num_lines) + " (" + str(to39perc) + "%)"
 	to49perc = float(to9counter) * 100 / int(num_lines)
-	print "40-49: " + str(to49counter)  + " occurences and percentage: " + str(to49perc)
+	print "io load 40-49% " + str(to49counter)  + " times out of " + str(num_lines) + " (" + str(to49perc) + "%)"
 	to59perc = float(to9counter) * 100 / int(num_lines)
-	print "50-59: " + str(to59counter)  + " occurences and percentage: " + str(to59perc)
+	print "io load 50-59% " + str(to59counter)  + " times out of " + str(num_lines) + " (" + str(to59perc) + "%)"
 	to69perc = float(to9counter) * 100 / int(num_lines)
-	print "60-69: " + str(to69counter)  + " occurences and percentage: " + str(to69perc)
+	print "io load 60-69% " + str(to69counter)  + " times out of " + str(num_lines) + " (" + str(to69perc) + "%)"
 	to79perc = float(to9counter) * 100 / int(num_lines)
-	print "70-79: " + str(to79counter)  + " occurences and percentage: " + str(to79perc)
+	print "io load 70-79% " + str(to79counter)  + " times out of " + str(num_lines) + " (" + str(to79perc) + "%)"
 	to89perc = float(to9counter) * 100 / int(num_lines)
-	print "80-89: " + str(to89counter)  + " occurences and percentage: " + str(to89perc)
+	print "io load 80-89% " + str(to89counter)  + " times out of " + str(num_lines) + " (" + str(to89perc) + "%)"
 	to100perc = float(to9counter) * 100 / int(num_lines)
-	print "90-100: " + str(to100counter)+ " occurences and percentage: " + str(to100perc)
-	print ">> GOTO: GRAPHS"
-	print "----------------------------------------------"
-	gen_graph()
+	print "io load 90-100% " + str(to100counter)+ " times out of " + str(num_lines) + " (" + str(to100perc) + "%)"
+	print ""
+	if arg_graph:
+		print ">> GOTO: GRAPHS"
+		print "----------------------------------------------"
+		gen_graph()
+	else:
+		print ">> END"
+		print "----------------------------------------------"
+		sys.exit(">> thanks for playing.")
 
 def gen_graph():
 
 	print ">> generating graphs"
 	# generate graphs here
+	print ""
 	print ">> END"
 	print "----------------------------------------------"
 	sys.exit(">> thanks for playing.")
-
 
 
 def file_parser():
@@ -77,6 +87,7 @@ def file_parser():
 	print "lines: " + str(num_lines)
 	print "time: " + str(arg_time)
 	print "column: " + str(arg_column) 
+	print ""
 	print ">> GOTO: PARSER"
 	print "----------------------------------------------"
 
@@ -149,6 +160,7 @@ def file_parser():
 			#print "90-100: " + str(point) 
 			to100counter = to100counter + 1	
 
+	print ""
 	print ">> GOTO: MATHS"
 	print "----------------------------------------------"
 	array_calc()
