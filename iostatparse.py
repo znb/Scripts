@@ -44,12 +44,26 @@ def file_parser():
 	file_parse = open(arg_file, 'r')
 	for line in file_parse:
 		point = (line.split()[int(arg_column)])
-		if point >= 9:
-			print "whoop: " +  point
-		#elif point >= 10 & =< 19:
-		#	print "10 - 19"
+		if point <= 9:
+			print "1-9: " +  point
+		elif (point >= 10) or (point <= 19):
+			print "10 - 19: " + point
+		elif (point >= 20) or (point <= 29):
+			print "20-29" + point
+		elif (point >= 30) or (point <= 39):
+			print "30-39" + point
+		elif (point >= 40) or (point <= 49):
+			print "40-49" + point
+		elif (point >= 50) or (point <= 59):
+			print "50-59" + point
+		elif (point >= 50) or (point <= 69):
+			print "60-69" + point
+		elif (point >= 70) or (point <= 79):
+			print "70-79" + point			
+		elif (point >= 80) or (point <= 89):
+			print "80-89" + point		
 		else:
-			print "1-9: " + point 
+			print "90-100: " + point 
 
 
 	print "complete"
