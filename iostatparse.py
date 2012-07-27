@@ -5,8 +5,9 @@
 # -f = file you want to parse
 # -c = column you want to investigate
 # -s = how many samples you want to parse
-# -g = option will create pretty graphs
+# -g = generate a simple gnuplot file
 # -o = option will output to a text file
+# -p = clean up a file for parsing
 
 # Eg. ./iostatparse.py -f c:\iostat.raw -c 21 -s 150 -o c:\iostat_parsed.txt -g c:\iostat_graph.png
 # NOTE: columns start at 0 in Python so if you want column 15 enter 14...
@@ -24,7 +25,7 @@ def main(): # get this party started
 	parser.add_argument('--column', '-c', dest='column', help='column to investigate')
 	parser.add_argument('--samples', '-s', dest='samples', help='how many samples to parse')
 	parser.add_argument('--output', '-o', dest='output', help='write results to file')
-	parser.add_argument('--graph', '-g', action='store_true', dest='graph', help='generate pretty graphs')
+	parser.add_argument('--gnuplot', '-g', dest='gnuplot', help='generate gnuplot output file')
 	parser.add_argument('--prep', '-p', action='store_true', dest='prep', help='prep file for parsing')
 	parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.1')
 	args = parser.parse_args()
@@ -37,13 +38,13 @@ def main(): # get this party started
 	global arg_file
 	global arg_column
 	global arg_samples
-	global arg_graph
+	global arg_gnuplot
 	global arg_output
 	arg_file = args.file
 	arg_column = args.column
 	arg_samples = args.samples
 	arg_output = args.output
-	arg_graph = args.graph
+	arg_gnuplot = args.gnuplot
 
 	# remove all the unneccessary stuff from the file for parsing
 	if args.prep:
@@ -196,10 +197,10 @@ def array_calc(): # do magic on our counters to get percentages
 		print ">> GOTO: OUTPUT"
 		print "----------------------------------------------"
 		write_output()
-	elif arg_graph:
-		print ">> GOTO: GRAPHS"
+	elif arg_gnuplot:
+		print ">> GOTO: GNUPLOT"
 		print "----------------------------------------------"
-		gen_graph()
+		gen_gnuplot()
 	else:
 		print ">> END"
 		print "----------------------------------------------"
@@ -249,21 +250,40 @@ def write_output(): # write our output to a file if necessary
 	fileout.write(spacer0)
 	fileout.close()
 
-	if arg_graph:
-		print ">> GOTO: GRAPHS"
+	if arg_gnuplot:
+		print ">> GOTO: GNUPLOT"
 		print "----------------------------------------------"
-		gen_graph()
+		gen_gnuplot()
 	else: 
 		print ">> END"
 		print "----------------------------------------------"
 		sys.exit("<< thanks for playing >>")
 
-def gen_graph(): # create pretty graphs
+def gen_gnuplot(): # create a gnuplot file
 
-	print ">> generating graphs"
-	# generate graphs here
+	print ">> generating gnuplot file"
+	# generate graphs heres
+	#
+	print ">> writing file"
 	print ""
-	print ">> END"
+	fileout = open(arg_gnuplot, 'w')
+	body0 = "set terminal png size 1280,600\n"
+	body1 = "set output 'disk_io.png\n"
+	body2 = "set title 'IO load'\n"
+	body3 = "set yrange[0:100]\n"
+	body4 = "plot '1-1.raw' using 3 with lines title 'VM drive';\n"
+	fileout.write(body0)
+	fileout.write(body1)
+	fileout.write(body2)
+	fileout.write(body3)
+	fileout.write(body4)
+	fileout.close()
+
+	print ""
+	print "file output: " + arg_gnuplot
+	print ""
+
+ 	print ">> END"
 	print "----------------------------------------------"
 	sys.exit("<< thanks for playing >>")
 
