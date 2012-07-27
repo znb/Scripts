@@ -10,10 +10,6 @@
 
 # Eg. ./iostatparse.py -f c:\iostat.raw -c 21 -s 150 -o c:\iostat_parsed.txt -g c:\iostat_graph.png
 
-# note that this script expects raw iostat output for input. clean it up with: 
-# 		cat iostat.txt |  grep -v -e "\(cpu\|id\)" > iostat.raw
-# yes, I will add code to clean up files, but in the mean time...
-
 # code@zonbi.org
 
 import argparse
@@ -22,12 +18,13 @@ import sys
 def main(): # get this party started
 
 	#basic menu system
-	parser = argparse.ArgumentParser(description='parse and graph iostat output', usage='%(prog)s -f file -c column -s samples')
-	parser.add_argument('-f', dest='file', help='file to parse')
-	parser.add_argument('-c', dest='column', help='column to investigate')
-	parser.add_argument('-s', dest='samples', help='how many samples to parse')
-	parser.add_argument('-o', dest='output', help='write results to file')
-	parser.add_argument('-g', action='store_true', dest='graph', help='generate pretty graphs')
+	parser = argparse.ArgumentParser(description='parse and graph iostat output', usage='%(prog)s -f file -c column [-s] [-o] [-g] [p]')
+	parser.add_argument('--file', '-f', dest='file', help='file to parse')
+	parser.add_argument('--column', '-c', dest='column', help='column to investigate')
+	parser.add_argument('--samples', '-s', dest='samples', help='how many samples to parse')
+	parser.add_argument('--output', '-o', dest='output', help='write results to file')
+	parser.add_argument('--graph', '-g', action='store_true', dest='graph', help='generate pretty graphs')
+	parser.add_argument('--prep', '-p', action='store_true', dest='prep', help='prep file for parsing')
 	parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.1')
 	args = parser.parse_args()
 	
@@ -47,8 +44,28 @@ def main(): # get this party started
 	arg_output = args.output
 	arg_graph = args.graph
 
+	# remove all the unneccessary stuff from the file for parsing
+	if args.prep:
+		file_prep()
+
+	# calculate the number of lines (samples) in the file
 	line_num()
+
+	# we need at least the columns to work
+	if not args.column:
+		parser.print_help()
+		sys.exit(1)
+	
+	# if no sample limit is supplied, parse the whole file
+	if not args.samples:
+		arg_samples = num_lines
+	
+	# begin main file parsing
 	file_parser()
+
+def file_prep():
+	# 		cat iostat.txt |  grep -v -e "\(cpu\|id\)" > iostat.raw
+	print "code to clean up file for raw parsing here"
 
 def line_num(): # count the number of lines we're parsing
 	global num_lines
@@ -56,7 +73,7 @@ def line_num(): # count the number of lines we're parsing
 	
 def file_parser(): # parse our file (error checking is for wimps)
 	print "----------------------------------------------"
-	print ">> BEGIN: "
+	print ">> BEGIN "
 	print ""
 	print "parsing: " + arg_file
 	print "max_samples: " + str(num_lines)
@@ -68,26 +85,27 @@ def file_parser(): # parse our file (error checking is for wimps)
 
 	# counters (I'm sure there is a better way to do this)
 	global to9counter 
-	to9counter = 0
-	global to19counter  
-	to19counter = 0 
+	global to19counter
 	global to29counter 
-	to29counter = 0 
 	global to39counter 
-	to39counter = 0 
 	global to49counter 
-	to49counter = 0 
 	global to59counter 
-	to59counter = 0 
 	global to69counter 
-	to69counter = 0 
 	global to79counter 
-	to79counter = 0 
 	global to89counter 
-	to89counter = 0 
 	global to99counter
-	to99counter = 0
 	global to100counter 
+
+	to9counter = 0
+	to19counter = 0 
+	to29counter = 0 
+	to39counter = 0 
+	to49counter = 0 
+	to59counter = 0 
+	to69counter = 0 
+	to79counter = 0 
+	to89counter = 0 
+	to99counter = 0
 	to100counter = 0 
 
 	print ">> parsing entries"
@@ -132,47 +150,44 @@ def array_calc(): # do magic on our counters to get percentages
 	print ""
 
 	global to9perc
-	to9perc = float(to9counter) * 100 / int(arg_samples)
-	print "io load 0-9% " + str(to9counter) + " times out of " + str(arg_samples) + " (" + str(to9perc) + "%)"
-
 	global to19perc
-	to19perc = float(to19counter) * 100 / int(arg_samples)
-	print "io load 10-19% " + str(to19counter)  + " times out of " + str(arg_samples) + " (" + str(to19perc) + "%)"
-
 	global to29perc
-	to29perc = float(to29counter) * 100 / int(arg_samples)
-	print "io load 20-29% " + str(to29counter)  + " times out of " + str(arg_samples) + " (" + str(to29perc) + "%)"
-
 	global to39perc
-	to39perc = float(to39counter) * 100 / int(arg_samples)
-	print "io load 30-39% " + str(to39counter)  + " times out of " + str(arg_samples) + " (" + str(to39perc) + "%)"
-
 	global to49perc
-	to49perc = float(to49counter) * 100 / int(arg_samples)
-	print "io load 40-49% " + str(to49counter)  + " times out of " + str(arg_samples) + " (" + str(to49perc) + "%)"
-
 	global to59perc
-	to59perc = float(to59counter) * 100 / int(arg_samples)
-	print "io load 50-59% " + str(to59counter)  + " times out of " + str(arg_samples) + " (" + str(to59perc) + "%)"
-
 	global to69perc
-	to69perc = float(to69counter) * 100 / int(arg_samples)
-	print "io load 60-69% " + str(to69counter)  + " times out of " + str(arg_samples) + " (" + str(to69perc) + "%)"
-
 	global to79perc
-	to79perc = float(to79counter) * 100 / int(arg_samples)
-	print "io load 70-79% " + str(to79counter)  + " times out of " + str(arg_samples) + " (" + str(to79perc) + "%)"
-
 	global to89perc
-	to89perc = float(to89counter) * 100 / int(arg_samples)
-	print "io load 80-89% " + str(to89counter)  + " times out of " + str(arg_samples) + " (" + str(to89perc) + "%)"
-
 	global to99perc
-	to99perc = float(to99counter) * 100 / int(arg_samples)
-	print "io load 90-99% " + str(to99counter)  + " times out of " + str(arg_samples) + " (" + str(to99perc) + "%)"
-
 	global to100perc
+
+	to9perc = float(to9counter) * 100 / int(arg_samples)
+	to19perc = float(to19counter) * 100 / int(arg_samples)
+	to29perc = float(to29counter) * 100 / int(arg_samples)
+	to39perc = float(to39counter) * 100 / int(arg_samples)
+	to49perc = float(to49counter) * 100 / int(arg_samples)
+	to59perc = float(to59counter) * 100 / int(arg_samples)
+	to69perc = float(to69counter) * 100 / int(arg_samples)
+	to79perc = float(to79counter) * 100 / int(arg_samples)
+	to89perc = float(to89counter) * 100 / int(arg_samples)
+	to99perc = float(to99counter) * 100 / int(arg_samples)
 	to100perc = float(to100counter) * 100 / int(arg_samples)
+
+	print ">> GOTO: RESULTS"
+	print "----------------------------------------------"
+	print ">> results from: " + arg_file
+	print ""
+
+	print "io load 0-9% " + str(to9counter) + " times out of " + str(arg_samples) + " (" + str(to9perc) + "%)"
+	print "io load 10-19% " + str(to19counter)  + " times out of " + str(arg_samples) + " (" + str(to19perc) + "%)"
+	print "io load 20-29% " + str(to29counter)  + " times out of " + str(arg_samples) + " (" + str(to29perc) + "%)"
+	print "io load 30-39% " + str(to39counter)  + " times out of " + str(arg_samples) + " (" + str(to39perc) + "%)"
+	print "io load 40-49% " + str(to49counter)  + " times out of " + str(arg_samples) + " (" + str(to49perc) + "%)"
+	print "io load 50-59% " + str(to59counter)  + " times out of " + str(arg_samples) + " (" + str(to59perc) + "%)"
+	print "io load 60-69% " + str(to69counter)  + " times out of " + str(arg_samples) + " (" + str(to69perc) + "%)"
+	print "io load 70-79% " + str(to79counter)  + " times out of " + str(arg_samples) + " (" + str(to79perc) + "%)"
+	print "io load 80-89% " + str(to89counter)  + " times out of " + str(arg_samples) + " (" + str(to89perc) + "%)"
+	print "io load 90-99% " + str(to99counter)  + " times out of " + str(arg_samples) + " (" + str(to99perc) + "%)"
 	print "io load 100% " + str(to100counter)+ " times out of " + str(arg_samples) + " (" + str(to100perc) + "%)"
 
 	print ""
