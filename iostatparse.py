@@ -9,6 +9,7 @@
 # -o = option will output to a text file
 
 # Eg. ./iostatparse.py -f c:\iostat.raw -c 21 -s 150 -o c:\iostat_parsed.txt -g c:\iostat_graph.png
+# NOTE: columns start at 0 in Python so if you want column 15 enter 14...
 
 # code@zonbi.org
 
