@@ -57,13 +57,25 @@ def main(): # get this party started
 	if not args.column:
 		parser.print_help()
 		sys.exit(1)
+		
+	if int(arg_column) == 0:
+		sys.exit("Error: invalid column")
 	
 	# if no sample limit is supplied, parse the whole file
 	if not args.samples:
 		arg_samples = num_lines
+
+	# check if we're trying to test more samples than we have
+	if int(total_samples) < int(arg_samples):
+		print ""
+		print "Error: sample set too large"
+		print "We only have " + str(total_samples) + " samples in our set"
+		sys.exit(1)
 	
 	# begin main file parsing
 	file_parser()
+
+
 
 def file_prep():
 	# 		cat iostat.txt |  grep -v -e "\(cpu\|id\)" > iostat.raw
@@ -71,14 +83,16 @@ def file_prep():
 
 def line_num(): # count the number of lines we're parsing
 	global num_lines
+	global total_samples
 	num_lines = sum(1 for line in open(arg_file, 'r'))
+	total_samples = int(num_lines) - 1
 	
 def file_parser(): # parse our file (error checking is for wimps)
 	print "----------------------------------------------"
 	print ">> BEGIN "
 	print ""
 	print "parsing: " + arg_file
-	print "max_samples: " + str(num_lines)
+	print "max_samples: " + str(total_samples)
 	print "samples: " + str(arg_samples)
 	print "column: " + str(arg_column) 
 	print ""
@@ -110,12 +124,15 @@ def file_parser(): # parse our file (error checking is for wimps)
 	to99counter = 0
 	to100counter = 0 
 
+	# simple math
+
 	print ">> parsing entries"
+	real_column = int(arg_column) - 1 # "fix for the python starting at 0 thing"
 	max_samples = arg_samples
 	file_parse = open(arg_file, 'r')
 	for i in range(int(max_samples)):
 		line = file_parse.next().strip()
-		point = int((line.split()[int(arg_column)]))
+		point = int((line.split()[int(real_column)]))
 
 		if (point >= 0) and (point <= 9):
 			to9counter = to9counter + 1
