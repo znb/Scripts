@@ -151,6 +151,7 @@ def array_calc(): # do magic on our counters to get percentages
 	print ">> doing magical math stuff"
 	print ""
 
+	# better way to do this ?
 	global to9perc
 	global to19perc
 	global to29perc
@@ -163,6 +164,7 @@ def array_calc(): # do magic on our counters to get percentages
 	global to99perc
 	global to100perc
 
+	# perhaps a loop of some kind here ?
 	to9perc = float(to9counter) * 100 / int(arg_samples)
 	to19perc = float(to19counter) * 100 / int(arg_samples)
 	to29perc = float(to29counter) * 100 / int(arg_samples)
@@ -180,6 +182,7 @@ def array_calc(): # do magic on our counters to get percentages
 	print ">> results from: " + arg_file
 	print ""
 
+	# perhaps a loop of some kind here ?
 	print "io load 0-9% " + str(to9counter) + " times out of " + str(arg_samples) + " (" + str(to9perc) + "%)"
 	print "io load 10-19% " + str(to19counter)  + " times out of " + str(arg_samples) + " (" + str(to19perc) + "%)"
 	print "io load 20-29% " + str(to29counter)  + " times out of " + str(arg_samples) + " (" + str(to29perc) + "%)"
@@ -229,6 +232,7 @@ def write_output(): # write our output to a file if necessary
 	body10 = "io load 100% " + str(to100counter)+ " times out of " + str(arg_samples) + " (" + str(to100perc) + "%)\n"
 	footer = "\n<< message ends >>\n"
 
+	# perhaps a loop of some kind here ?
 	fileout.write(header0)
 	fileout.write(header1)
 	fileout.write(header2)
@@ -264,19 +268,53 @@ def gen_gnuplot(): # create a gnuplot file
 	print ">> generating gnuplot file"
 	# generate graphs heres
 	#
-	print ">> writing file"
-	print ""
-	fileout = open(arg_gnuplot, 'w')
+	print ">> writing plot file" # write the plot file for gnuplot to use
+	arg_gnuplot_plot = arg_gnuplot + ".plt"
+	fileout = open(arg_gnuplot_plot, 'w')
 	body0 = "set terminal png size 1280,600\n"
-	body1 = "set output 'disk_io.png\n"
-	body2 = "set title 'IO load'\n"
+	body1 = "set output \"" + arg_gnuplot + ".png\"\n"
+	body2 = "set title \"IO load\"\n"
 	body3 = "set yrange[0:100]\n"
-	body4 = "plot '1-1.raw' using 3 with lines title 'VM drive';\n"
+	body4 = "set boxwidth 0.5\n"
+	body5 = "set style fill solid\n"
+	body6 = "plot \"" + arg_gnuplot + ".raw\" using 1:3:xtic(2) with boxes title 'io load'\n"
+	# perhaps a loop of some kind here ?
 	fileout.write(body0)
 	fileout.write(body1)
 	fileout.write(body2)
 	fileout.write(body3)
 	fileout.write(body4)
+	fileout.write(body5)
+	fileout.write(body6)
+	fileout.close()
+
+	print ">> writing data file"  # write the raw gnuplot file to plot from
+	print ""
+	arg_gnuplot_raw = arg_gnuplot + ".raw"
+	fileout = open(arg_gnuplot_raw, 'w')
+	body0 = "0 0-9% " + str(to9perc) + "\n" 
+	body1 = "1 10-19% " + str(to19perc) + "\n" 
+	body2 = "2 20-29% " + str(to29perc) + "\n" 
+	body3 = "3 30-39% " + str(to39perc) + "\n" 
+	body4 = "4 40-49% " + str(to49perc) + "\n" 
+	body5 = "5 50-59% " + str(to59perc) + "\n" 
+	body6 = "6 60-69% " + str(to69perc) + "\n" 
+	body7 = "7 70-79% " + str(to79perc) + "\n" 
+	body8 = "8 80-89% " + str(to89perc) + "\n" 
+	body9 = "9 90-99% " + str(to99perc) + "\n" 
+	body10 = "10 100% " + str(to100perc) + "\n" 
+	# perhaps a loop of some kind here ?
+	fileout.write(body0)
+	fileout.write(body1)
+	fileout.write(body2)
+	fileout.write(body3)
+	fileout.write(body4)
+	fileout.write(body5)
+	fileout.write(body6)
+	fileout.write(body7)
+	fileout.write(body8)
+	fileout.write(body9)
+	fileout.write(body10)
 	fileout.close()
 
 	print ""
