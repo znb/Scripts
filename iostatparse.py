@@ -1,7 +1,22 @@
 #!/usr/bin/python
 
-# take iostat output and parse it into something pretty
+# iostatparse.py take iostat output and parse it into something pretty
+# Copyright (C) 2012  Matt Erasmus
 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Command line options
 # -f = file you want to parse
 # -c = column you want to investigate
 # -s = how many samples you want to parse
@@ -10,12 +25,12 @@
 # -p = clean up a file for parsing
 
 # Eg. ./iostatparse.py -f c:\iostat.raw -c 21 -s 150 -o c:\iostat_parsed.txt -g c:\iostat_graph.png
-# NOTE: columns start at 0 in Python so if you want column 15 enter 14...
 
-# code@zonbi.org
+# Matt Erasmus <code@zonbi.org>
 
 import argparse
 import sys
+import fileinput
 
 def main(): # get this party started
 
@@ -26,7 +41,7 @@ def main(): # get this party started
 	parser.add_argument('--samples', '-s', dest='samples', help='how many samples to parse')
 	parser.add_argument('--output', '-o', dest='output', help='write results to file')
 	parser.add_argument('--gnuplot', '-g', dest='gnuplot', help='generate gnuplot output file')
-	parser.add_argument('--prep', '-p', action='store_true', dest='prep', help='prep file for parsing')
+	parser.add_argument('--prep', '-p', dest='prep', help='prep file for parsing')
 	parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.1')
 	args = parser.parse_args()
 	
@@ -40,11 +55,13 @@ def main(): # get this party started
 	global arg_samples
 	global arg_gnuplot
 	global arg_output
+	global arg_prep
 	arg_file = args.file
 	arg_column = args.column
 	arg_samples = args.samples
 	arg_output = args.output
 	arg_gnuplot = args.gnuplot
+	arg_prep = args.prep
 
 	# remove all the unneccessary stuff from the file for parsing
 	if args.prep:
@@ -57,7 +74,7 @@ def main(): # get this party started
 	if not args.column:
 		parser.print_help()
 		sys.exit(1)
-		
+
 	if int(arg_column) == 0:
 		sys.exit("Error: invalid column")
 	
@@ -78,8 +95,8 @@ def main(): # get this party started
 
 
 def file_prep():
-	# 		cat iostat.txt |  grep -v -e "\(cpu\|id\)" > iostat.raw
-	print "code to clean up file for raw parsing here"
+	# this needs work
+	print "this needs work"
 
 def line_num(): # count the number of lines we're parsing
 	global num_lines
@@ -247,8 +264,7 @@ def write_output(): # write our output to a file if necessary
 	body8 = "io load 80-89% " + str(to89counter)  + " times out of " + str(arg_samples) + " (" + str(to89perc) + "%)\n"
 	body9 = "io load 90-99% " + str(to99counter)+ " times out of " + str(arg_samples) + " (" + str(to99perc) + "%)\n"
 	body10 = "io load 100% " + str(to100counter)+ " times out of " + str(arg_samples) + " (" + str(to100perc) + "%)\n"
-	footer = "\n<< message ends >>\n"
-
+	
 	# perhaps a loop of some kind here ?
 	fileout.write(header0)
 	fileout.write(header1)
@@ -267,7 +283,6 @@ def write_output(): # write our output to a file if necessary
 	fileout.write(body8)
 	fileout.write(body9)
 	fileout.write(body10)
-	fileout.write(footer)
 	fileout.write(spacer0)
 	fileout.close()
 
@@ -284,7 +299,6 @@ def gen_gnuplot(): # create a gnuplot file
 
 	print ">> generating gnuplot file"
 	# generate graphs heres
-	#
 	print ">> writing plot file" # write the plot file for gnuplot to use
 	arg_gnuplot_plot = arg_gnuplot + ".plt"
 	fileout = open(arg_gnuplot_plot, 'w')
