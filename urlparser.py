@@ -4,12 +4,14 @@
 
 import argparse
 import sys
+import re
+import string
 
 def get_urls(filein):
-	pat = r'\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^%s\s]|/)))'
-   	pat = pat % re.sub(r'([-\\\]])', r'\\\1', string.punctuation)
-   	
-   	return re.finditer(pat, filein)
+				pat = r'\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^%s\s]|/)))'
+				pat = pat % re.sub(r'([-\\\]])', r'\\\1', string.punctuation)
+
+				return re.finditer(pat, filein)
 
 def main():
 
