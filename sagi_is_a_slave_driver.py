@@ -27,20 +27,27 @@ def search_person():
 		else:
 			continue
 	
+def set_reminder():
+	print "super leet reminder code here..."
 
 def check_birthdays():
 	print "\nWe're checking if today is special for someone..."
 	today = date.today()
-	print "\nToday is " + str(today)
+	print "\nToday is " + str(today) + "\n"
 	output_file = open(arg_file).read()
 	output_json = json.loads(output_file)
-	search_date = output_json["birthdays"][2]["date"]
-	print "searching for " + search_date
-	
+	for x in output_json["birthdays"]:
+		if x["date"] == str(today):
+			print x["name"] + " has a birthday today !!"
+			reminder = raw_input("Set a reminder Y/N ?")
+			if reminder == "y":
+				set_reminder()
+			else:
+				continue
+		else:
+			continue
 
-
-
-def menu():
+def __main__():
 
 	# menu system
 	parser = argparse.ArgumentParser(description='basic birthday reminder system', usage='%(prog)s -f file')
@@ -68,15 +75,10 @@ def menu():
 		search_person()
 	elif arg_file and arg_check:
 		check_birthdays()
-		#try:
-		#	check_birthdays()
-		#except:
-		#	print "Today isn't a special day :("
 	else:
 		list_birthdays()
 	
 
 
 if __name__ == '__main__':
-    print "\nDo your homework or Sagi will punish you !!\n"
-    menu()
+    __main__()
