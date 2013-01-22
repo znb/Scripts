@@ -9,12 +9,11 @@ import json
 def list_birthdays():
 	output_file = open(arg_file).read()
 	output_json = json.loads(output_file)
-	for i in output_json:
-	    print "\nBirthdays in file: "
-	    print "-------------------"
-    	for k in output_json[i]:
-            print k, output_json[i][k]
-    
+	print "\nBirthdays in file: "
+	print "-------------------"
+	for x in output_json["birthdays"]:
+	   		print x["date"], x["name"]
+
 	sys.exit("\nWe're done here")
 	
 
@@ -32,13 +31,11 @@ def check_birthdays():
 	print "\nToday is " + str(today)
 	output_file = open(arg_file).read()
 	output_json = json.loads(output_file)
-	for i in output_json:
-		search_date = output_json["birthdays"]["date"]
-		if str(search_date) == str(today):
-			print "It's " + output_json["birthdays"]["person"] + "\'s birthday today."
-		else:
-			print "\nNo birthdays today."
+	search_date = output_json["birthdays"][2]["date"]
+	print "searching for " + search_date
 	
+
+
 
 def menu():
 
