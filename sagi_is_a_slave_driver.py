@@ -18,12 +18,15 @@ def list_birthdays():
 	
 
 def search_person():
-	print "\nSearching for " + arg_person
+	print "\nSearching for " + arg_person + "\n"
 	output_file = open(arg_file).read()
 	output_json = json.loads(output_file)
-	print "Birthday on: " + output_json['birthdays'][arg_person]
-	sys.exit("We're done here")
-
+	for x in output_json["birthdays"]:
+		if x["name"] == arg_person:
+			print x["name"] + " has a birthday on: " + x["date"]
+		else:
+			continue
+	
 
 def check_birthdays():
 	print "\nWe're checking if today is special for someone..."
@@ -62,10 +65,7 @@ def menu():
 		sys.exit(parser.print_help())
 
 	if args.person and arg_file:
-		try:
-			search_person()	
-		except:
-			print "Person not in database :("
+		search_person()
 	elif arg_file and arg_check:
 		check_birthdays()
 		#try:
