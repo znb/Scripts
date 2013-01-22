@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+# version 0.2
+
 from datetime import date 
 import sys
 import argparse
@@ -57,9 +59,6 @@ def __main__():
 	parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.1')
 	args = parser.parse_args()
 
-	if len(sys.argv) == 1:
-		sys.exit(parser.print_help())
-
 	# not sure about globals yet 
 	global arg_file
 	arg_file = args.file
@@ -68,7 +67,7 @@ def __main__():
 	global arg_check
 	arg_check = args.check
 
-	if not args.file:
+	if len(sys.argv) <= 1:
 		sys.exit(parser.print_help())
 
 	if args.person and arg_file:
@@ -77,8 +76,6 @@ def __main__():
 		check_birthdays()
 	else:
 		list_birthdays()
-	
-
 
 if __name__ == '__main__':
     __main__()
