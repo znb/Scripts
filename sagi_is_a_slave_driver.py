@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 # version 0.2
+# TODO
+# pass params to functions 
 
 from datetime import date 
 import sys
