@@ -7,9 +7,6 @@ import json
 
 
 def list_birthdays():
-	today = date.today()
-	print "\nToday is " + str(today)
-
 	output_file = open(arg_file).read()
 	output_json = json.loads(output_file)
 	for i in output_json:
@@ -31,8 +28,16 @@ def search_person():
 
 def check_birthdays():
 	print "\nWe're checking if today is special for someone..."
+	today = date.today()
+	print "\nToday is " + str(today)
 	output_file = open(arg_file).read()
 	output_json = json.loads(output_file)
+	for i in output_json:
+		search_date = output_json["birthdays"]["date"]
+		if str(search_date) == str(today):
+			print "It's " + output_json["birthdays"]["person"] + "\'s birthday today."
+		else:
+			print "\nNo birthdays today."
 	
 
 def menu():
@@ -65,15 +70,16 @@ def menu():
 		except:
 			print "Person not in database :("
 	elif arg_file and arg_check:
-		try:
-			check_birthdays()
-		except:
-			print "Today isn't a special day :("
+		check_birthdays()
+		#try:
+		#	check_birthdays()
+		#except:
+		#	print "Today isn't a special day :("
 	else:
 		list_birthdays()
 	
 
 
 if __name__ == '__main__':
-    print "Do your homework or Sagi will punish you !!"
+    print "\nDo your homework or Sagi will punish you !!\n"
     menu()
