@@ -14,10 +14,13 @@ class MyHTMLParser(HTMLParser):
         pasteids = []
         for attr in attrs:
             if attr[0] == "href":
-                #pasteid = attr[1]
-                pasteids.append(attr[1])
-                print pasteids
-       
+                for pstclass in attr:
+                    print attr
+                    if pstclass[0] == "i_p0":
+                        pasteids.append(attr[1])
+                        print pasteids
+    # this class is broken...need to figure out how to just 
+    # pull the class = i_p0 stuff (the actual paste iDs)   
 
 def pastegrabber(arg_outdir):
     """Grab todays trending pastes to our specified directory"""
