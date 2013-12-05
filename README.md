@@ -1,3 +1,9 @@
 General scripts to automate stuff
 
-./mle
+Mostly boring sysadmin type stuff.
+
+Bear in mind that stuff here is likely to be incomplete and/or broken.
+I take no responsibility if you wife/girlfriend/pet leaves you because of this.
+
+I like cake
+
