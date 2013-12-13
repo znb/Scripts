@@ -9,8 +9,7 @@ import sys
 def check_email(aemail):
     """Do the actual checking"""
     print "Checking Email...",
-    cemail = urllib.quote(aemail)
-    checkurl = "http://haveibeenpwned.com/api/breachedaccount/" + cemail
+    checkurl = "http://haveibeenpwned.com/api/breachedaccount/" + urllib.quote(aemail)
     r = requests.get(checkurl)
     if r.status_code == 404:
         sys.exit("We're done here.")
