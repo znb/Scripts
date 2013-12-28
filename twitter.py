@@ -8,18 +8,25 @@ import twitter
 import re
 
 
-def send_tweet():
+def send_tweet(atweet):
     """Send tweets"""
-    print ""
-    load_apikey()
-    print ConsumerKey, ConsumerSecret, AccessTokenKey, AccessTokenSecret
-    sys.exit("bailing out")
-    print "sending tweet: '" + arg_tweet + "'"
-    api = twitter.Api()
-    api = twitter.Api(consumer_key=ConsumerKey, consumer_secret=ConsumerSecret, access_token_key=AccessTokenKey, access_token_secret=AccessTokenSecret)
-    status = api.PostUpdate(tweet)
-    print status.text
-
+    # Gotta be a better way to do this
+    keys = []
+    keys = load_apikey()
+    consumer_key = keys[0]
+    consumer_secret = keys[1]
+    access_token_key = keys[2]
+    access_token_secret = keys[3]
+    print "Should we send: '" + atweet + "' ?"
+    query = raw_input("(y)/(n): ").lower()
+    if query == "y":
+        api = twitter.Api()
+        api = twitter.Api(consumer_key, consumer_secret, access_token_key, access_token_secret)
+        status = api.PostUpdate(atweet)
+        print status.text    
+    else:
+        sys.exit("Not tweeting :(")
+    
 
 def load_apikey():
     """Load our API keys from file"""
@@ -56,7 +63,7 @@ def main():
     if not args.tweet:
         sys.exit(parser.print_help())
 
-    send_tweet()
+    send_tweet(atweet)
 
 if __name__ == '__main__':
     main()
