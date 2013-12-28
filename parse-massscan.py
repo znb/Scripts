@@ -9,19 +9,12 @@ from xml.dom.minidom import parse, parseString
 
 
 def dosomeworkslacker(axmlfile, acsvfile):
-    """Stuff"""
-    print "Let's get this party started"
+    """Parsing and printing stuff"""
     print "Input from: " + axmlfile
     global output
     output = open(acsvfile, 'a')
     print "Output going to: " + acsvfile
-    output.write("Source: %s" % axmlfile)
-    output.write("\n")
-
-    print ""
-    
-
-    print "Opening scan file for parsing"
+    print "\nOpening scan file for parsing, ",
     dom = parse(axmlfile)
     nmapvars = {}
     hostname = ''
@@ -33,13 +26,12 @@ def dosomeworkslacker(axmlfile, acsvfile):
     name = []
     global portstate  
     portstate = []
-    goodXML = []
 
     scaninfo = dom.getElementsByTagName('nmaprun')[0]
     date = scaninfo.getAttribute("startstr")
     args = scaninfo.getAttribute('args')
 
-    print "Parsing this bitch"
+    print "parsing this bitch", 
     for node in dom.getElementsByTagName('host'):
         for subnode in node.childNodes: 
             if subnode.attributes is not None: 
@@ -55,7 +47,7 @@ def dosomeworkslacker(axmlfile, acsvfile):
 
     dom.unlink()
     output.close()
-    sys.exit("We're done here.\n")
+    sys.exit("We're done here.")
 
 def translateXml(node):
     """translate our XML stuff into something useful"""
@@ -72,14 +64,13 @@ def translateXml(node):
         output.write(",")
 
     elif node.nodeName == "state":
-
         isopen = node.getAttribute('state')
         portstate.append(node.getAttribute('state'))
         output.write(node.getAttribute('state'))
 
 
 def __main__():
-
+    """Get this little party started"""
     parser = argparse.ArgumentParser(description='basic output parser', usage='%(prog)s -i input.xml -o output.csv')
     parser.add_argument('--input', '-i', dest='infile', help='file to input xml from')
     parser.add_argument('--output', '-o', dest='outfile', default='output.csv', help='file to output csv to')
@@ -93,6 +84,6 @@ def __main__():
 
     dosomeworkslacker(axmlfile, acsvfile)
 
+
 if __name__ == '__main__':
     __main__()
-
