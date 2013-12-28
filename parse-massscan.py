@@ -4,7 +4,6 @@
 
 import argparse
 import sys
-import datetime
 import re
 from xml.dom.minidom import parse, parseString
 
@@ -13,14 +12,14 @@ def dosomeworkslacker(axmlfile, acsvfile):
     """Stuff"""
     print "Let's get this party started"
     print "Input from: " + axmlfile
-    output = open('output.csv', 'a')
-    print "Output going to: output.csv" 
-    output.write('\n<----started at: ')
+    global output
+    output = open(acsvfile, 'a')
+    print "Output going to: " + acsvfile
+    output.write("Source: %s" % axmlfile)
+    output.write("\n")
 
-    now = datetime.datetime.now()
     print ""
-    output.write(now.strftime("%Y-%m-%d %H:%M"))
-    output.write(' ----->\n')
+    
 
     print "Opening scan file for parsing"
     dom = parse(axmlfile)
@@ -29,11 +28,13 @@ def dosomeworkslacker(axmlfile, acsvfile):
     os = ''
     args = ''
     date = ''
+    global port 
     port = []
     name = []
-    product = []
-    version = []
-    extrainfo = []
+    #product = []
+    #version = []
+    #extrainfo = []
+    global portstate
     portstate = []
     goodXML = []
 
@@ -41,60 +42,6 @@ def dosomeworkslacker(axmlfile, acsvfile):
     date = scaninfo.getAttribute("startstr")
     args = scaninfo.getAttribute('args')
 
-    dom.unlink()
-    output.close()
-
-
-def translateXml(node):
-    """translate our XML stuff into something useful"""
-    #if node.nodeName == 'hostname':
-    #
-    #    hostname = node.getAttribute('name')
-    #    output.write(node.getAttribute('name'))
-    #    output.write(':')
-
-    #elif node.nodeName == 'address':
-
-    if 'ip' in node.getAttribute('addrtype'):
-        output.write('\n')
-        ipaddr = node.getAttribute('addr')
-        output.write(node.getAttribute('addr'))
-        output.write(' >> ')
-
-    elif node.nodeName == "port":
-        port.append(node.getAttribute("portid"))
-        output.write(node.getAttribute("portid"))
-
-    elif node.nodeName == "state":
-
-        isopen = node.getAttribute('state')
-        portstate.append(node.getAttribute('state'))
-        output.write(node.getAttribute('state'))
-        output.write(',')
-        #if isopen == "open":
-        #    portstate.append(node.getAttribute('state'))
-        #    output.write(node.getAttribute('state'))
-        #    output.write(',')
-        #else:
-        #    pass
-
-    elif node.nodeName == "service":
-
-        name.append(node.getAttribute("name"))
-        output.write(node.getAttribute('name'))
-        output.write(',')
-        product.append(node.getAttribute("product"))
-        output.write(node.getAttribute('product'))
-        output.write(',')
-        version.append(node.getAttribute("version"))
-        output.write(node.getAttribute('version'))
-        output.write(',')
-        extrainfo.append(node.getAttribute("extrainfo"))
-        output.write(node.getAttribute('extrainfo'))
-        output.write(',')
-
-def parsethisbitch():
-    """Do some XML parsing"""
     print "Parsing this bitch"
     for node in dom.getElementsByTagName('host'):
         for subnode in node.childNodes: 
@@ -107,8 +54,60 @@ def parsethisbitch():
                             if len(subsubnode.childNodes) > 0:
                                 for subsubsubnode in subsubnode.childNodes:
                                     if subsubsubnode.attributes is not None:
-                                        translateXml(subsubsubnode) 
+                                        translateXml(subsubsubnode)
 
+    dom.unlink()
+    output.close()
+    sys.exit("We're done here.\n")
+
+def translateXml(node):
+    """translate our XML stuff into something useful"""
+    #if node.nodeName == 'hostname':
+    #
+    #    hostname = node.getAttribute('name')
+    #    output.write(node.getAttribute('name'))
+    #    output.write(':')
+
+    #elif node.nodeName == 'address':
+
+    if 'ip' in node.getAttribute('addrtype'):
+        output.write("\n")
+        ipaddr = node.getAttribute('addr')
+        output.write(node.getAttribute('addr'))
+        output.write(",")
+
+    elif node.nodeName == "port":
+        port.append(node.getAttribute("portid"))
+        output.write(node.getAttribute("portid"))
+        output.write(",")
+
+    elif node.nodeName == "state":
+
+        isopen = node.getAttribute('state')
+        portstate.append(node.getAttribute('state'))
+        output.write(node.getAttribute('state'))
+        #output.write(",")
+        #if isopen == "open":
+        #    portstate.append(node.getAttribute('state'))
+        #    output.write(node.getAttribute('state'))
+        #    output.write(',')
+        #else:
+        #    pass
+
+    #elif node.nodeName == "service":
+
+#        name.append(node.getAttribute("name"))
+#        output.write(node.getAttribute('name'))
+#        output.write(',')
+#        product.append(node.getAttribute("product"))
+#        output.write(node.getAttribute('product'))
+#        output.write(',')
+#        version.append(node.getAttribute("version"))
+#        output.write(node.getAttribute('version'))
+#        output.write(',')
+#        extrainfo.append(node.getAttribute("extrainfo"))
+#        output.write(node.getAttribute('extrainfo'))
+#        output.write(',')
 
 
 def __main__():
