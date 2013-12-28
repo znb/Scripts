@@ -31,10 +31,7 @@ def dosomeworkslacker(axmlfile, acsvfile):
     global port 
     port = []
     name = []
-    #product = []
-    #version = []
-    #extrainfo = []
-    global portstate
+    global portstate  
     portstate = []
     goodXML = []
 
@@ -62,13 +59,6 @@ def dosomeworkslacker(axmlfile, acsvfile):
 
 def translateXml(node):
     """translate our XML stuff into something useful"""
-    #if node.nodeName == 'hostname':
-    #
-    #    hostname = node.getAttribute('name')
-    #    output.write(node.getAttribute('name'))
-    #    output.write(':')
-
-    #elif node.nodeName == 'address':
 
     if 'ip' in node.getAttribute('addrtype'):
         output.write("\n")
@@ -86,28 +76,6 @@ def translateXml(node):
         isopen = node.getAttribute('state')
         portstate.append(node.getAttribute('state'))
         output.write(node.getAttribute('state'))
-        #output.write(",")
-        #if isopen == "open":
-        #    portstate.append(node.getAttribute('state'))
-        #    output.write(node.getAttribute('state'))
-        #    output.write(',')
-        #else:
-        #    pass
-
-    #elif node.nodeName == "service":
-
-#        name.append(node.getAttribute("name"))
-#        output.write(node.getAttribute('name'))
-#        output.write(',')
-#        product.append(node.getAttribute("product"))
-#        output.write(node.getAttribute('product'))
-#        output.write(',')
-#        version.append(node.getAttribute("version"))
-#        output.write(node.getAttribute('version'))
-#        output.write(',')
-#        extrainfo.append(node.getAttribute("extrainfo"))
-#        output.write(node.getAttribute('extrainfo'))
-#        output.write(',')
 
 
 def __main__():
