@@ -15,7 +15,7 @@ def parsebody(bodydata):
 
 def parseheaders(headerdata):
     """Parsing headers for the good stuff"""
-    print "Parsing headers"""
+    #print "Parsing headers"""
     #print headerdata
     server = headerdata['server']
     print "`~> Server: " + server
@@ -26,22 +26,20 @@ def parseheaders(headerdata):
             parsebody(body)
         else:
             print " `~> Header Redirect: " + location
-            print "\n`~> New request: " + location + "\n"
-            headers, body = makerequest(location)
+            print "\n>> New request: " + location + "\n"
+            headers = headerrequest(location)
             parseheaders(headers)
     except KeyError:
-        print "No location redirects in headers :("
+        print "`~> No location redirects in headers :("
 
 
-def makerequest(requrl):
+def headerrequest(requrl):
     """Make the HTTP request"""
-    print "Request: " + str(requrl)
     req = requests.head(requrl)
     headers = req.headers
-    bodydata = req.text
     status_code = req.status_code
     history = req.history
-    print "Status code: " + str(status_code)
+#    print "Status code: " + str(status_code)
     if history == []:
         pass
     else: 
@@ -49,12 +47,14 @@ def makerequest(requrl):
     if status_code == 404:
         sys.exit("Erroring out: We got a 404")
 
-    return (headers, bodydata)
+    print "Request: " + str(requrl) + "  (" + str(status_code) + ")"
+
+    return headers
 
 
 def checkurl(url):
     """Check a URL for redirects and the like"""
-    headers, body = makerequest(url)
+    headers = headerrequest(url)
     parseheaders(headers)
 
 
