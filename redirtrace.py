@@ -15,8 +15,6 @@ def parsebody(bodydata):
 
 def parseheaders(headerdata):
     """Parsing headers for the good stuff"""
-    #print "Parsing headers"""
-    #print headerdata
     server = headerdata['server']
     print "`~> Server: " + server
 
@@ -39,7 +37,6 @@ def headerrequest(requrl):
     headers = req.headers
     status_code = req.status_code
     history = req.history
-#    print "Status code: " + str(status_code)
     if history == []:
         pass
     else: 
