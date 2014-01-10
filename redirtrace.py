@@ -4,6 +4,7 @@
 import argparse
 import sys
 import requests
+import re
 
 
 def parsebody(bodydata):
@@ -59,14 +60,24 @@ def __main__():
     """Get this party started"""
     parser = argparse.ArgumentParser(description='Simple redirect follower', usage='%(prog)s -u url')
     parser.add_argument('--url', '-u', dest='url', help='url to check')
+    parser.add_argument('--ssl', '-s', dest='ssl', action='store_true', help='URL is SSL enabled')
     parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.1')
     args = parser.parse_args()
-    global aurl
     aurl = args.url
+    assl = args.ssl
 
-    if not args.url:
+    if (not args.url and args.ssl):
         sys.exit(parser.print_help())
 
+    regex = re.compile(r'^https?://', re.IGNORECASE)
+    sanitycheck = regex.search(aurl)
+    if sanitycheck:
+        pass
+    else:
+        if args.ssl:
+            aurl = "https://" + aurl
+        else:
+            aurl = "http://" + aurl
     print "Checking: " + str(aurl) + "\n"
     checkurl(aurl)
 
