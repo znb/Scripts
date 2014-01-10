@@ -69,6 +69,10 @@ def __main__():
     if (not args.url and args.ssl):
         sys.exit(parser.print_help())
 
+    if not args.url:
+        sys.exit(parser.print_help())
+
+    # Simple sanity check to add http or https
     regex = re.compile(r'^https?://', re.IGNORECASE)
     sanitycheck = regex.search(aurl)
     if sanitycheck:
