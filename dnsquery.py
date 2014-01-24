@@ -15,23 +15,28 @@ def rdnsquery(aip):
 
 def dnsquery(ahost, aqtype):
     """Perform DNS queries"""
-    ans = dns.resolver.query(ahost, aqtype)
+    dresolver = dns.resolver.Resolver()
+    dresolver.nameservers = [adnsserver]
+    ans = dresolver.query(ahost, aqtype)
     if aqtype == "MX":
-        for rdata in ans:
-            print '>>', rdata.exchange, '\tweight:', rdata.preference
+        try:
+            for rdata in ans:
+                print '>>', rdata.exchange, '\tweight:', rdata.preference
+        except Exception as e:
+                print "Error: %s" % e
     else:
         try:
             for rdata in ans:
                 print rdata.address
-        # This isn't working yet :(
-        except NoAnswer:
-            sys.exit("Error: 31")
+        except Exception as e:
+            print "Error: %s" % e
 
 def __main__():
     """Get this party started"""
     parser = argparse.ArgumentParser(description='basic dns query system', usage='%(prog)s -f file -t <query type>')
     parser.add_argument('--file', '-f', dest='filein', help='file to pull hosts from')
     parser.add_argument('--host', '-H', dest='host', help='Hostname to query')
+    parser.add_argument('--server', '-s', dest='dnsserver', default='8.8.8.8', help='DNS server to query')
     parser.add_argument('--ip', '-i', dest='ip', help='IP address to query')
     parser.add_argument('--type', '-t', dest='query', help='DNS query type')
     parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.1')
@@ -40,6 +45,8 @@ def __main__():
     aip = args.ip
     ahost = args.host
     aqtype = args.query
+    global adnsserver
+    adnsserver = args.dnsserver
 
     #if not args.filein:
     #    sys.exit(parser.print_help())
