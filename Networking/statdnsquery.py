@@ -18,26 +18,25 @@ def dnsquery(aqtype, adomain):
     resp_code = report.get("response_code", {})
     if resp_code == 400:
         print "Error"
-    print report
     results = report.get("answer", {})
-    for result in results:
-        print result
-
-    return 0
+    additional = report.get("additional", {})
+    print results
+    print additional
 
 
 def reversequery(adomain):
     """Do a PTR lookup"""
     print "Getting PTR record for: " + str(adomain) 
     fullurl = "http://api.statdns.com/x/" + str(adomain).rstrip('\n')
-    print fullurl
     resp = requests.get(fullurl)
 
     report = resp.json()
     resp_code = report.get("response_code", {})
     if resp_code == 400:
         print "Error"
-    print report
+    results = report.get("answer", {})
+
+    print results
 
     sys.exit()
 
@@ -67,17 +66,16 @@ def __main__():
     adomain = args.domain
     areverse = args.reverse
 
-    #if not (args.qtype and args.domain):
-    #    sys.exit(parser.print_help())
-
     if args.reverse:
         reversequery(areverse)
     elif args.querylist:
         querylist()
-    else:
+    elif (args.qtype and args.domain):
         dnsquery(aqtype, adomain)
-
+    else:
+        sys.exit(parser.print_help())
 
 
 if __name__ == '__main__':
     __main__()
+
