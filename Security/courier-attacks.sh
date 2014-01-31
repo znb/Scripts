@@ -17,7 +17,7 @@ echo "---------------------------------------"
 for x in `cat ${ATTACKERS}` 
  do 
    echo -n "${x}: " 
-    grep ${REGEX} ${LOGFILE} | grep ${x} | awk -F"=" ' { print $2} ' | awk -F")" '{ print $1 }'  | wc -l 
+    grep ${REGEX} ${LOGFILE} | grep -e "${x}" | awk -F"=" ' { print $2} ' | awk -F")" '{ print $1 }'  | wc -l 
 done
 echo "---------------------------------------"
 
@@ -29,11 +29,11 @@ if [ $ANSWER == "y" ]; then
 		echo "---------------------------------------"
 		for x in `cat ${ATTACKERS}` 
 		 do 
-		  grep ${REGEX} ${LOGFILE} | grep ${x} > /tmp/${x}-attack_summary.txt
+		  grep ${REGEX} ${LOGFILE} | grep -w "${x}" > /tmp/${x}-attack_summary.txt
 		  echo "Attacker: ${x}" 
 		  for y in `cat ${USERS}`
 		   do 
-			 ATTACKS=`grep ${y} /tmp/${x}-attack_summary.txt | awk -F"=" ' { print $2} ' | awk -F")" '{ print $1 }' | wc -l`
+			 ATTACKS=`grep -w "${y}" /tmp/${x}-attack_summary.txt | awk -F"=" ' { print $2} ' | awk -F")" '{ print $1 }' | wc -l`
 			 if [ ${ATTACKS} == "0" ];
 			 then 
 			   continue
