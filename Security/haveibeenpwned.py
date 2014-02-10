@@ -16,7 +16,9 @@ def do_check(checkemail):
         print "You're good, " + checkemail + " not found."
     elif r.status_code == 200:
         print "Bad things happened: " + checkemail + " found on lists",  
-        print r.text
+        # parse this shit properly
+        report = r.json()
+        print report
     else:
         print "Something else happened"
 
