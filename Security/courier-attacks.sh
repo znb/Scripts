@@ -69,6 +69,15 @@ else
 fi
 }
 
+function rootcheck() {
+ if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+ fi
+}
+
+rootcheck
+
 echo "Getting stats"
 cat ${LOGFILE} | grep ${REGEX} | awk -F"[" '{ print $2 }' | awk -F"]" '{ print $1}' | sort| uniq > ${ATTACKERS}
 cat ${LOGFILE} | grep ${REGEX} | awk -F"=" ' { print $2} ' | awk -F")" '{ print $1 }' | sort | uniq > ${USERS}
