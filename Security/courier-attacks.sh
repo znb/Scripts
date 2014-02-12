@@ -79,7 +79,7 @@ function rootcheck() {
 rootcheck
 
 echo "Getting stats"
-cat ${LOGFILE} | grep ${REGEX} | awk -F"[" '{ print $2 }' | awk -F"]" '{ print $1}' | sort| uniq > ${ATTACKERS}
+cat ${LOGFILE} | grep ${REGEX} | awk -F"]" '{ print $2}' | awk -F"[" '{ print $2 }'| sort | uniq > ${ATTACKERS}
 cat ${LOGFILE} | grep ${REGEX} | awk -F"=" ' { print $2} ' | awk -F")" '{ print $1 }' | sort | uniq > ${USERS}
 
 attackersummary
