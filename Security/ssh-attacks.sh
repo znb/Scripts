@@ -15,3 +15,14 @@ echo "-----------------"
 echo "Attackers"
 echo "-----------------"
 grep "${REGEX}" ${LOGFILE} | awk -F" " '{ print $13 }' | sort | uniq
+echo "-----------------"
+
+echo "Successful Password Logins"
+echo "--------------------------"
+grep "Accepted password for" ${LOGFILE} | awk -F" " '{ print "Date: " $1" "$2" "$3 " IP: " $11" User: " $9 }'
+echo "--------------------------"
+
+echo "Successful Public Key Logins"
+echo "----------------------------"
+grep "Accepted publickey for" ${LOGFILE} | awk -F" " '{ print "Date: " $1" "$2" "$3 " IP: " $11" User: " $9 }'
+echo "----------------------------"
