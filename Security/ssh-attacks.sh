@@ -6,6 +6,8 @@ BADREGEX="Failed password for invalid"
 GOODREGEX="Failed password for "
 PASSWORDREGEX="Accepted password for"
 PUBKEYREGEX="Accepted publickey for"
+START=`head -1 ${LOGFILE} | awk -F" " '{ print $1" "$2" "$3}'`
+STOP=`tail -1 ${LOGFILE} | awk -F" " '{ print $1" "$2" "$3}'`
 
 if [ "${LOGFILE}" = "" ]
  then
@@ -15,6 +17,7 @@ fi
 
 echo "Getting stats"
 echo 
+echo "Reporting Period: ${START} - ${STOP}"
 
 echo -n "Total attacks: "
 grep "${BADREGEX}" ${LOGFILE} | wc -l
