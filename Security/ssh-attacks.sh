@@ -1,11 +1,17 @@
 #!/bin/bash
 # Simple script to parse the auth log and pull some naughty stats
 
-LOGFILE="/var/log/auth.log"
+LOGFILE="$1"
 BADREGEX="Failed password for invalid"
 GOODREGEX="Failed password for "
 PASSWORDREGEX="Accepted password for"
 PUBKEYREGEX="Accepted publickey for"
+
+if [ "${LOGFILE}" = "" ]
+ then
+  echo "We need a log file"
+  exit 0
+fi
 
 echo "Getting stats"
 echo 
