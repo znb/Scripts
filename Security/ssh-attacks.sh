@@ -15,6 +15,14 @@ if [ "${LOGFILE}" = "" ]
   exit 0
 fi
 
+if [ -f $LOGFILE ]
+ then 
+  continue
+else 
+  echo "Log file doesn't exist"
+  exit 0
+fi
+
 echo "Getting stats"
 echo 
 echo "Reporting Period: ${START} - ${STOP}"
