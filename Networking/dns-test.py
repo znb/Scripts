@@ -7,7 +7,7 @@
 
 import argparse
 import sys
-import dns.resolver
+from dns import resolver,reversename, name
 
 
 def loadfile(afile):
@@ -20,9 +20,22 @@ def loadfile(afile):
         lookup = entry[0]
         host = entry[1]
         ip = entry[2]
-        print "Doing " + lookup + " record lookup for " + host + " (" + ip + ")", 
-        do_check(lookup, ip, host)
+        if lookup == "PTR":
+            print "Doing " + lookup + " record lookup for " + host, 
+            do_reverse_check(lookup, ip, host)
+        else:
+            print "Doing " + lookup + " record lookup for " + host + " (" + ip + ")", 
+            do_check(lookup, ip, host)
     fh.close()
+
+
+def do_reverse_check(lookup, ip, host):
+    """Do PTR record checks"""
+    hostfromdns = name.from_text(ip)
+    if str(hostfromdns) == str(ip):
+        print " [OK] "
+    else:
+        print " [ERROR] "
 
 
 def do_check(lookup, ip, host):
@@ -36,7 +49,7 @@ def do_check(lookup, ip, host):
 
 def dns_query(adnsserver, lookup, host):
     """Perform DNS query"""
-    dresolver = dns.resolver.Resolver()
+    dresolver = resolver.Resolver()
     dresolver.nameservers = [adnsserver]
     ans = dresolver.query(host, lookup)
     try:
@@ -45,7 +58,7 @@ def dns_query(adnsserver, lookup, host):
     except Exception as e:
         print "Error: %s" % e
 
-        
+
 def __main__():
 
     parser = argparse.ArgumentParser(description='basic menu system')
