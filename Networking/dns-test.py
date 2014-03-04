@@ -19,32 +19,32 @@ def loadfile(afile):
         entry = hostentry.split(":", 2)
         lookup = entry[0]
         host = entry[1]
-        ip = entry[2]
+        fip = entry[2]
         if lookup == "PTR":
-            print "Doing " + lookup + " record lookup for " + host, 
-            do_reverse_check(lookup, ip, host)
+            print lookup + " record " + host, 
+            do_reverse_check(lookup, fip, host)
         else:
-            print "Doing " + lookup + " record lookup for " + host + " (" + ip + ")", 
-            do_check(lookup, ip, host)
+            print lookup + " record " + host + " (" + fip + ")", 
+            do_check(lookup, fip, host)
     fh.close()
 
 
-def do_reverse_check(lookup, ip, host):
+def do_reverse_check(lookup, fip, host):
     """Do PTR record checks"""
-    hostfromdns = name.from_text(ip)
-    if str(hostfromdns) == str(ip):
+    hostfromdns = name.from_text(fip)
+    if str(hostfromdns) == str(fip):
         print " [OK] "
     else:
-        print " [ERROR] "
+        print " [ERROR!!  DNS:" + str(hostfromdns) + "  FILE: " + fip + "] "
 
 
-def do_check(lookup, ip, host):
+def do_check(lookup, fip, host):
     """Do the actual check of file against DNS"""
     dnsresult = dns_query(adnsserver, lookup, host)    
-    if dnsresult == ip:
+    if str(dnsresult) == str(fip):
         print " [OK] "
     else:
-        print " [ERROR] "
+        print " [ERROR!!  DNS:" + str(dnsresult) + "  FILE: " + fip + "] "
 
 
 def dns_query(adnsserver, lookup, host):
@@ -54,7 +54,7 @@ def dns_query(adnsserver, lookup, host):
     ans = dresolver.query(host, lookup)
     try:
         for rdata in ans:
-            return rdata.address
+            return rdata
     except Exception as e:
         print "Error: %s" % e
 
@@ -73,9 +73,9 @@ def __main__():
     if not args.file:
         sys.exit(parser.print_help())
 
-
     loadfile(afile)
 
 
 if __name__ == '__main__':
     __main__()
+
