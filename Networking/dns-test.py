@@ -7,6 +7,7 @@
 
 import argparse
 import sys
+import socket
 from dns import resolver,reversename, name
 
 
@@ -50,7 +51,14 @@ def do_check(lookup, fip, host):
 def dns_query(adnsserver, lookup, host):
     """Perform DNS query"""
     dresolver = resolver.Resolver()
-    dresolver.nameservers = [adnsserver]
+    check_dnsserver = adnsserver
+    try:
+        socket.inet_aton(check_dnsserver)
+        cdnsserver = check_dnsserver
+    except:
+        cdnsserver = socket.gethostbyname(check_dnsserver)
+
+    dresolver.nameservers = [cdnsserver]
     ans = dresolver.query(host, lookup)
     try:
         for rdata in ans:
