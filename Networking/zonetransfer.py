@@ -23,20 +23,25 @@ def get_ns_records(adomain, aserver):
     return ns_list
 
 
-def zone_transfer(adomain, aserver):
+def zone_transfer(adomain, aserver, aquiet):
     """Perform zone transfers against our name servers"""
     ns_list = get_ns_records(adomain, aserver)
     for server in ns_list:
-        print "> AXFR from: " + str(server)
+        print "> Testing: " + str(server), 
         try: 
             z = dns.zone.from_xfr(dns.query.xfr(str(server), adomain))
             names = z.nodes.keys()
             names.sort()
-            for n in names:
-                print z[n].to_text(n)
+            if aquiet == True:
+                print "[WARNING] AXFR is allowed"
+            else:
+                for n in names:
+                    print z[n].to_text(n)
         except Exception as e:
             msg = "AXFR not allowed (probably)"
             print "Error: %s %s" % (e, msg)
+
+    print ""
 
 
 def __main__():
@@ -44,16 +49,20 @@ def __main__():
     parser = argparse.ArgumentParser(description='Check name servers for zone transfers')
     parser.add_argument('--domain', '-d', dest='domain', help='domain to check')
     parser.add_argument('--server', '-s', dest='dnsserver', default='8.8.8.8', help='DNS server to query')
+    parser.add_argument('--quiet', '-q', dest='quiet', action="store_true", help='Test but dont dump')
     parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.1')
     args = parser.parse_args()
     adomain = args.domain
     aserver = args.dnsserver
+    aquiet = args.quiet
 
     if not args.domain:
         sys.exit(parser.print_help())
+    if aquiet:
+        aquiet = True
 
     print "Zone transfer of doom v1..."
-    zone_transfer(adomain, aserver)
+    zone_transfer(adomain, aserver, aquiet)
 
 
 if __name__ == '__main__':
