@@ -49,7 +49,7 @@ def __main__():
     parser.add_argument('--file', '-f', dest='filein', help='file to pull hosts from')
     parser.add_argument('--output', '-o', dest='output', help='file to dump results to')
     parser.add_argument('--host', '-H', dest='host', help='Hostname to query')
-    parser.add_argument('--server', '-s', dest='dnsserver', default='10.240.17.30', help='DNS server to query')
+    parser.add_argument('--server', '-s', dest='dnsserver', default='8.8.8.8', help='DNS server to query')
     parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.1')
     args = parser.parse_args()
     afile = args.filein
