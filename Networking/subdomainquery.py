@@ -1,5 +1,6 @@
 #!/usr/bin/python
-# Basic DNS query system
+# Simple subdomain search tool
+# Usage: ./subdomainquery.py -S 8.8.8.8 -s blog -f /tmp/domain_input.txt -o /tmp/output.txt
 
 import argparse
 import sys
@@ -27,7 +28,7 @@ def dnsquery(querydomain, adnsserver):
     dresolver = dns.resolver.Resolver()
     dresolver.nameservers = [adnsserver]
     try: 
-        ans = dresolver.query(querydomain.rstrip(), 'A')
+        ans = dresolver.query(querydomain.rstrip(), 'a')
         try:
             for rdata in ans:
                 return rdata.address
