@@ -76,6 +76,9 @@ def parse_xml(ainput, aoutput):
             noutput.write(',')
 
     with open(aoutput, 'w') as noutput:
+        noutput.write(',,,,,,,,,\n')
+        noutput.write('IP Address,Host Name,All Ports Filtered,Open Ports,')
+        noutput.write('State (O/C),Service,Version,Device Type,Running,OS Details\n')
         for node in dom.getElementsByTagName('host'):
             for subnode in node.childNodes:
                 if subnode.attributes is not None:
