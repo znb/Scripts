@@ -48,6 +48,8 @@ def load_file(afile):
     for host in checks:
         print "\t" + host
 
+    print "\nWe're done here"
+
 
 def __main__():
     """Get this party started"""
