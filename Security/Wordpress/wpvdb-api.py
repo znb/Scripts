@@ -32,7 +32,7 @@ def wp_theme_check(athemecheck):
     vulns = plugin_check.get("theme", {})
     for i in range(len(vulns['vulnerabilities'])):
         vulnerability = vulns['vulnerabilities'][i]['title']
-        print vulnerability
+        print "* " + vulnerability
 
 
 def wp_plugin_check(aplugincheck):
@@ -43,7 +43,7 @@ def wp_plugin_check(aplugincheck):
     vulns = plugin_check.get("plugin", {})
     for i in range(len(vulns['vulnerabilities'])):
         vulnerability = vulns['vulnerabilities'][i]['title']
-        print vulnerability
+        print "*" + vulnerability
 
 
 def wp_version_check(awpcheck):
@@ -54,7 +54,7 @@ def wp_version_check(awpcheck):
     vulns = wp_check.get("wordpress", {})
     for i in range(len(vulns['vulnerabilities'])):
         vulnerability = vulns['vulnerabilities'][i]['title']
-        print vulnerability
+        print "* " + vulnerability
 
 
 def __main__():
