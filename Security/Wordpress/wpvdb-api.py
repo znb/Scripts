@@ -43,7 +43,7 @@ def wp_plugin_check(aplugincheck):
     vulns = plugin_check.get("plugin", {})
     for i in range(len(vulns['vulnerabilities'])):
         vulnerability = vulns['vulnerabilities'][i]['title']
-        print "*" + vulnerability
+        print "* " + vulnerability
 
 
 def wp_version_check(awpcheck):
