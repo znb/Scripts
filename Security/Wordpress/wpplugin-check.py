@@ -23,7 +23,7 @@ def query_api(plugin):
         vulns = jdata.get("plugin", {})
         for i in range(len(vulns['vulnerabilities'])):
             vulnerability = vulns['vulnerabilities'][i]['title']
-            print "* " + vulnerability
+            print " * " + vulnerability
         print "\n"
 
 
