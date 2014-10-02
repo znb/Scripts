@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # Simple script to query the WPScan VulnDB for our plugins
+# TODO: Match our version against the reported version for
+#       more accurate reporting
 
 import argparse
 import sys
