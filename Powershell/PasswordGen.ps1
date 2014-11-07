@@ -1,7 +1,6 @@
 # Simple script to generate a decent password and copy to clipboard
 
 param( 
-#[int] $len = 15,  # Adjust this if required
 [string] $length = 15,
 [string] $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_!@#$%^&*()_"
 )
