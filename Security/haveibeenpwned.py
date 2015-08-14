@@ -4,6 +4,10 @@
 import requests
 import argparse
 import urllib
+<<<<<<< HEAD
+=======
+import sys
+>>>>>>> 7f22a727073ba1185e06b9ef42475f33279c645e
 
 def do_check(checkemail):
     """Do the actual checking against HIBP"""
@@ -42,6 +46,9 @@ def get_breach_details():
     customheaders = {"User-Agent": "haveibeenpwned-dot-py"}
 =======
     customheaders =  { "User-Agent" : "haveibeenpwned-dot-py" }
+<<<<<<< HEAD
+>>>>>>> 7f22a727073ba1185e06b9ef42475f33279c645e
+=======
 >>>>>>> 7f22a727073ba1185e06b9ef42475f33279c645e
     checkurl = "https://haveibeenpwned.com/api/v2/breaches"
     r = requests.get(checkurl, headers=customheaders, verify=False)
