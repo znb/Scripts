@@ -4,18 +4,16 @@
 import requests
 import argparse
 import urllib
-import sys
-
 
 def do_check(checkemail):
     """Do the actual checking against HIBP"""
-    customheaders =  { "User-Agent" : "haveibeenpwned-dot-py" }
+    customheaders = {"User-Agent": "haveibeenpwned-dot-py"}
     checkurl = "https://haveibeenpwned.com/api/v2/breachedaccount/" + urllib.quote(checkemail)
     r = requests.get(checkurl, headers=customheaders, verify=False)
     if r.status_code == 404:
         print "You're good, " + checkemail + " not found."
     elif r.status_code == 200:
-        print "Bad things happened: " + checkemail + " found on lists",  
+        print "Bad things happened: " + checkemail + " found on lists",
         # parse this shit properly
         report = r.json()
         print report
@@ -40,12 +38,17 @@ def check_email_list(aelist):
 
 def get_breach_details():
     """Get a list of the breaches available"""
+<<<<<<< HEAD
+    customheaders = {"User-Agent": "haveibeenpwned-dot-py"}
+=======
     customheaders =  { "User-Agent" : "haveibeenpwned-dot-py" }
-    checkurl = "https://haveibeenpwned.com/api/v2/breaches" 
+>>>>>>> 7f22a727073ba1185e06b9ef42475f33279c645e
+    checkurl = "https://haveibeenpwned.com/api/v2/breaches"
     r = requests.get(checkurl, headers=customheaders, verify=False)
     if r.status_code == 404:
         print "Something bad happened"
     print r.text
+
 
 def __main__():
     """Lets get this party started"""

@@ -1,0 +1,19 @@
+{
+	"plugins": [
+	{
+		"title": "category-sticky-post", 
+		"version": "2.5.0",
+		"active": "true"
+	},
+	{
+		"title": "contact-form-7",
+		"version": "3.9.3",
+		"active": "true"
+	},
+	{
+		"title": "contact-form-db",
+		"version": "2.8.10",
+		"active": "true"
+	}
+	]
+}
