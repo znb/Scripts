@@ -1,0 +1,7 @@
+{
+    "subject": "Malicious Domain Report",
+    "from": "malware-report@zonbi.org",
+    "to": "csirt@zonbi.org",
+    "tmpfile" : "/tmp/malreport.txt",
+    "smtpserver" : "yourmailserver.com"
+}
